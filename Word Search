@@ -1,0 +1,71 @@
+int dx[4] = {1,0,-1,0};
+    int dy[4] = {0,1,0,-1};
+
+    bool isSafe(int i,int j,int row,int col)
+    {
+        if((i >= 0 && i < row) && (j >= 0 && j < col))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    bool dfs(int i,int j,int row,int col,int index,vector<vector<char>>&board,string& word,string& temp,vector<vector<int>>&vis)
+    {
+        if(temp == word)
+        {
+            return true;
+        }
+        vis[i][j] = 1;
+        for(int k = 0 ; k < 4 ; k++)
+        {
+            int new_i = dx[k] + i;
+            int new_j = dy[k] + j;
+            if(isSafe(new_i,new_j,row,col) && board[new_i][new_j] == word[index] && vis[new_i][new_j] == 0)
+            {
+                temp.push_back(word[index]);
+                if(dfs(new_i,new_j,row,col,index+1,board,word,temp,vis))
+                {
+                    return true;
+                }
+            }
+        }
+        vis[i][j] = 0;
+        temp.pop_back();
+
+
+        return false;
+    }
+
+    bool solve(vector<vector<char>>&board,string& word)
+    {
+        string temp = "";
+        int n = board.size();
+        int m = board[0].size();
+        vector<vector<int>>vis(n,vector<int>(m,0));
+        int index = 0;
+
+        for(int i = 0 ; i < board.size() ; i++)
+        {
+            for(int j = 0 ; j < board[0].size() ; j++)
+            {
+                if(board[i][j] == word[0])
+                {
+                    temp.push_back(word[0]);
+                    index = 1;
+
+                    if(dfs(i,j,n,m,index,board,word,temp,vis))
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    bool exist(vector<vector<char>>& board, string word)
+    {
+        return solve(board,word);
+    }
