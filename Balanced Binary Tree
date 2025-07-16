@@ -1,0 +1,24 @@
+int bt(TreeNode* root,int &height)
+{
+    if(root == NULL)
+    {
+        return 0;
+    }
+    int left  = bt(root -> left,height) + 1;
+    int right = bt(root -> right,height) + 1;
+    if(abs(left - right) >  1)
+    {
+        height = 0;
+    }
+    return max(left,right);
+}
+bool isBalanced(TreeNode* root)
+{
+    int height = 1;
+    bt(root,height);
+    if(height == 0)
+    {
+        return false;
+    }
+    return true;
+}
