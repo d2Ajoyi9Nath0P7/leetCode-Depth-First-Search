@@ -1,0 +1,22 @@
+int dia(int& cnt,TreeNode* root)
+{
+    if(root == NULL)
+    {
+        return 0;
+    }
+
+    int leftHeight = dia(cnt,root->left);
+    int rightHeight = dia(cnt,root->right);
+
+    cnt = max(cnt,leftHeight+rightHeight);
+
+    return 1 + max(leftHeight,rightHeight);
+}
+
+int diameterOfBinaryTree(TreeNode* root)
+{
+    int cnt = 0;
+    dia(cnt,root);
+
+    return cnt;
+}
