@@ -1,0 +1,35 @@
+void solve(TreeNode* nd,vector<int>&temp,vector<string>&res)
+    {
+        if(nd == NULL)
+        {
+            return; 
+        }
+
+        temp.push_back(nd->val);
+        solve(nd->left,temp,res);
+        solve(nd->right,temp,res);
+
+        if(nd -> left == NULL && nd -> right == NULL)
+        {
+            string str;
+            for(int i = 0 ; i < temp.size() ; i++)
+            {
+                str += to_string(temp[i]);
+                if(i != temp.size()-1){
+                    str += "->";
+                }
+            }
+            res.push_back(str);
+        }
+        temp.pop_back();
+    }
+
+    vector<string> binaryTreePaths(TreeNode* root)
+    {
+        TreeNode* temp = root;
+        vector<int>vec;
+        vector<string>res;
+        solve(temp,vec,res);
+        
+        return res;
+    }
